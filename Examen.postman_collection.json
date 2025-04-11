@@ -1,0 +1,541 @@
+{
+	"info": {
+		"_postman_id": "8185d13d-3a47-413b-93e2-6b20d84a430d",
+		"name": "Examen",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27624248"
+	},
+	"item": [
+		{
+			"name": "Login Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    var token = jsonData.token;\r",
+							"    \r",
+							"    pm.globals.set(\"token\", token);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Email\" : \"admin@example.com\",\r\n    \"Password\" : \"Admin@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44309/api/auth/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44309",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					],
+					"query": [
+						{
+							"key": "Email",
+							"value": "chloe@test.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    var token = jsonData.token;\r",
+							"    \r",
+							"    // Fonction pour décoder un JWT sans bibliothèque externe\r",
+							"    function parseJwt(token) {\r",
+							"        var base64Url = token.split('.')[1];\r",
+							"        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');\r",
+							"        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {\r",
+							"            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);\r",
+							"        }).join(''));\r",
+							"        \r",
+							"        return JSON.parse(jsonPayload);\r",
+							"    }\r",
+							"    \r",
+							"    var decodedToken = parseJwt(token);\r",
+							"    \r",
+							"    var userId = decodedToken[\"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier\"];\r",
+							"    \r",
+							"    pm.globals.set(\"customer\", userId);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Email\" : \"customer1@test.com\",\r\n    \"Password\" : \"TestDeCustomer1\",\r\n    \"Role\" : \"Customer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44309/api/auth/register",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44309",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Technician 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    var token = jsonData.token;\r",
+							"    \r",
+							"    // Fonction pour décoder un JWT sans bibliothèque externe\r",
+							"    function parseJwt(token) {\r",
+							"        var base64Url = token.split('.')[1];\r",
+							"        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');\r",
+							"        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {\r",
+							"            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);\r",
+							"        }).join(''));\r",
+							"        \r",
+							"        return JSON.parse(jsonPayload);\r",
+							"    }\r",
+							"    \r",
+							"    var decodedToken = parseJwt(token);\r",
+							"    \r",
+							"    var userId = decodedToken[\"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier\"];\r",
+							"    \r",
+							"    pm.globals.set(\"technician1\", userId);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Email\" : \"technician1@test.com\",\r\n    \"Password\" : \"TestDeTechnician1\",\r\n    \"Role\" : \"Technician\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44309/api/auth/register",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44309",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Technician 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    var token = jsonData.token;\r",
+							"    \r",
+							"    // Fonction pour décoder un JWT sans bibliothèque externe\r",
+							"    function parseJwt(token) {\r",
+							"        var base64Url = token.split('.')[1];\r",
+							"        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');\r",
+							"        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {\r",
+							"            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);\r",
+							"        }).join(''));\r",
+							"        \r",
+							"        return JSON.parse(jsonPayload);\r",
+							"    }\r",
+							"    \r",
+							"    var decodedToken = parseJwt(token);\r",
+							"    \r",
+							"    var userId = decodedToken[\"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier\"];\r",
+							"    \r",
+							"    pm.globals.set(\"technician2\", userId);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Email\" : \"technician2@test.com\",\r\n    \"Password\" : \"TestDeTechnician2\",\r\n    \"Role\" : \"Technician\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44309/api/auth/register",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44309",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Service Type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 201) {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    \r",
+							"    var id = jsonData.id; \r",
+							"    \r",
+							"    pm.globals.set(\"service\", id);\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Plomberie\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44309/api/servicetype",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44309",
+					"path": [
+						"api",
+						"servicetype"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Intervention",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customer\": {\r\n    \"id\": \"{{customer}}\"\r\n  },\r\n  \"serviceType\": {\r\n    \"name\":\"Plomberie\"\r\n  },\r\n  \"technicians\": [\r\n    {\r\n      \"Id\": \"{{technician2}}\"\r\n    },\r\n    {\r\n      \"Id\": \"{{technician1}}\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44309/api/Intervention",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44309",
+					"path": [
+						"api",
+						"Intervention"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Intervention",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44309/api/intervention/4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44309",
+					"path": [
+						"api",
+						"intervention",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Intervention",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7153/api/intervention/4",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7153",
+					"path": [
+						"api",
+						"intervention",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Language",
+						"value": "fr",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\": \"JRpTQHRLd4dgMPngX5PPNRCVbkNW2A5MK6+kFZPR+zo=\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44309/api/auth/refresh-token",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44309",
+					"path": [
+						"api",
+						"auth",
+						"refresh-token"
+					],
+					"query": [
+						{
+							"key": "Email",
+							"value": "chloe@test.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Crash FR",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Accept-Language",
+						"value": "fr",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:44309/api/admin/test",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44309",
+					"path": [
+						"api",
+						"admin",
+						"test"
+					],
+					"query": [
+						{
+							"key": "Email",
+							"value": "chloe@test.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Admin Crash EN",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Accept-Language",
+						"value": "fr",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://localhost:44309/api/admin/test",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44309",
+					"path": [
+						"api",
+						"admin",
+						"test"
+					],
+					"query": [
+						{
+							"key": "Email",
+							"value": "chloe@test.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

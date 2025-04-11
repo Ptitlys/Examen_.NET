@@ -2,6 +2,7 @@
 
 using Examen.Models.Requests;
 using Examen.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Examen.Controllers
@@ -18,6 +19,7 @@ namespace Examen.Controllers
         }
 
         [HttpPost("register")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
                 var result = await _authService.Register(request);

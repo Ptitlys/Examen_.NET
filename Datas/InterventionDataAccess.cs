@@ -33,10 +33,26 @@ public class InterventionDataAccess : IInterventionDataAccess
             .ToListAsync();
     }
 
-    public async Task<Intervention> Add(Intervention intervention)
+    public async Task<Intervention> Add(Intervention intervention, List<string> technicianIds)
     {
         _context.Interventions.Add(intervention);
         await _context.SaveChangesAsync();
+    
+        if (technicianIds.Any())
+        {
+            var technicians = await _context.Users
+                .OfType<Technician>()
+                .Where(t => technicianIds.Contains(t.Id))
+                .ToListAsync();
+            
+            foreach (var technician in technicians)
+            {
+                intervention.Technicians.Add(technician);
+            }
+        
+            await _context.SaveChangesAsync();
+        }
+    
         return intervention;
     }
 

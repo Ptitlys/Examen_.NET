@@ -3,6 +3,7 @@ using System;
 using Examen.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Examen.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250411144810_InitDB7")]
+    partial class InitDB7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,21 +196,6 @@ namespace Examen.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("InterventionTechnician", b =>
-                {
-                    b.Property<int>("InterventionsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TechniciansId")
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("InterventionsId", "TechniciansId");
-
-                    b.HasIndex("TechniciansId");
-
-                    b.ToTable("InterventionTechnician");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -321,13 +309,18 @@ namespace Examen.Migrations
                 {
                     b.HasBaseType("Examen.Models.Entities.User");
 
+                    b.Property<int?>("InterventionId")
+                        .HasColumnType("int");
+
+                    b.HasIndex("InterventionId");
+
                     b.HasDiscriminator().HasValue("Technician");
                 });
 
             modelBuilder.Entity("Examen.Models.Entities.Intervention", b =>
                 {
                     b.HasOne("Examen.Models.Entities.Customer", "Customer")
-                        .WithMany("Interventions")
+                        .WithMany()
                         .HasForeignKey("CustomerId");
 
                     b.HasOne("Examen.Models.Entities.ServiceType", "ServiceType")
@@ -339,21 +332,6 @@ namespace Examen.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("ServiceType");
-                });
-
-            modelBuilder.Entity("InterventionTechnician", b =>
-                {
-                    b.HasOne("Examen.Models.Entities.Intervention", null)
-                        .WithMany()
-                        .HasForeignKey("InterventionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Examen.Models.Entities.Technician", null)
-                        .WithMany()
-                        .HasForeignKey("TechniciansId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -407,9 +385,16 @@ namespace Examen.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Examen.Models.Entities.Customer", b =>
+            modelBuilder.Entity("Examen.Models.Entities.Technician", b =>
                 {
-                    b.Navigation("Interventions");
+                    b.HasOne("Examen.Models.Entities.Intervention", null)
+                        .WithMany("Technicians")
+                        .HasForeignKey("InterventionId");
+                });
+
+            modelBuilder.Entity("Examen.Models.Entities.Intervention", b =>
+                {
+                    b.Navigation("Technicians");
                 });
 #pragma warning restore 612, 618
         }

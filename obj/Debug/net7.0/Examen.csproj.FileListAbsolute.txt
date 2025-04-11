@@ -67,3 +67,4 @@ C:\Users\Chloe\Documents\Cours_M2\.NET\Examen\Examen\obj\Debug\net7.0\en\Examen.
 C:\Users\Chloe\Documents\Cours_M2\.NET\Examen\Examen\obj\Debug\net7.0\en\Examen.resources.dll
 C:\Users\Chloe\Documents\Cours_M2\.NET\Examen\Examen\obj\Debug\net7.0\fr\Examen.resources.cs
 C:\Users\Chloe\Documents\Cours_M2\.NET\Examen\Examen\obj\Debug\net7.0\fr\Examen.resources.dll
+C:\Users\Chloe\Documents\Cours_M2\.NET\Examen\Examen\bin\Debug\net7.0\Examen.postman_collection.json
